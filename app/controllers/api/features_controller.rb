@@ -13,7 +13,7 @@ class Api::FeaturesController < ApplicationController
     # Pagination
     per_page = params[:per_page]&.to_i || 10
     per_page = 1000 if per_page > 1000 
-    @features = @features.page(params[:page]).per(per_page)
+    @features = Feature.paginate(page: params[:page], per_page: params[:per_page])
     
     render json: @features, each_serializer: FeatureSerializer, status: :ok
   end
