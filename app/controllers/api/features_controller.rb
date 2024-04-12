@@ -17,6 +17,7 @@ class Api::FeaturesController < ApplicationController
     
     total_pages = @features.total_pages
     response.headers['X-Total-Pages'] = total_pages.to_s
+    
     render json: {features: @features, total_pages: total_pages, current_page: params[:page] }, each_serializer: FeatureSerializer, status: :ok
   end
 
