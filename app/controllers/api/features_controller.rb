@@ -30,6 +30,7 @@ class Api::FeaturesController < ApplicationController
       render json: comment.errors, status: :unprocessable_entity
     end
   end
+  
 
   private 
 
@@ -38,7 +39,7 @@ class Api::FeaturesController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:body)
+    params.permit(:body)
   end 
 
 end
