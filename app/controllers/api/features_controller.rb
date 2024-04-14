@@ -10,6 +10,9 @@ class Api::FeaturesController < ApplicationController
       @features = @features.where(mag_type: params[:filters][:mag_type])
     end 
 
+    # Obtener tipos de magnitud únicos
+    mag_types = Feature.distinct.pluck(:mag_type)
+
     # Pagination
     per_page = params[:per_page]&.to_i || 10
     per_page = 1000 if per_page > 1000 
@@ -18,7 +21,7 @@ class Api::FeaturesController < ApplicationController
     total_pages = @features.total_pages
     response.headers['X-Total-Pages'] = total_pages.to_s
     
-    render json: {features: @features, total_pages: total_pages, current_page: params[:page] }, each_serializer: FeatureSerializer, status: :ok
+    render json: {features: @features, total_pages: total_pages, current_page: params[:page], mag_types: mag_types }, each_serializer: FeatureSerializer, status: :ok
   end
 
   # POST /api/features/:id/comments
