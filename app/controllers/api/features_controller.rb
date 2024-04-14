@@ -6,8 +6,10 @@ class Api::FeaturesController < ApplicationController
     @features = Feature.all
 
     # Filtrar por mag_type
-    if params[:filters].present? && params[:filters][:mag_type].present?
-      @features = @features.where(mag_type: params[:filters][:mag_type])
+    if params[:mag_type].present?
+      @features = @features.where(mag_type: params[:mag_type])
+      puts("inside para[:mag_type] condition")
+      pp @features
     end 
 
     # Obtener tipos de magnitud únicos
@@ -16,7 +18,7 @@ class Api::FeaturesController < ApplicationController
     # Pagination
     per_page = params[:per_page]&.to_i || 10
     per_page = 1000 if per_page > 1000 
-    @features = Feature.paginate(page: params[:page], per_page: per_page)
+    @features = @features.paginate(page: params[:page], per_page: per_page)
     
     total_pages = @features.total_pages
     response.headers['X-Total-Pages'] = total_pages.to_s
