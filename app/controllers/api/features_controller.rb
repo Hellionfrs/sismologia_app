@@ -1,5 +1,5 @@
 class Api::FeaturesController < ApplicationController
-  before_action :set_feature, only: [:create_comment]
+  before_action :set_feature, only: [:create_comment, :show]
 
   # GET /api/features
   def index
@@ -24,6 +24,16 @@ class Api::FeaturesController < ApplicationController
     response.headers['X-Total-Pages'] = total_pages.to_s
     
     render json: {features: @features, total_pages: total_pages, current_page: params[:page], mag_types: mag_types }, each_serializer: FeatureSerializer, status: :ok
+  end
+
+  # GET /api/features/:id
+  def show
+    # Obtener el feature específico
+    feature_data = {
+      feature: @feature,
+      comments: @feature.comments.order(created_at: :desc)
+    }
+    render json: feature_data, status: :ok
   end
 
   # POST /api/features/:id/comments
