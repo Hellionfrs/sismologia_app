@@ -1,5 +1,5 @@
 class Api::FeaturesController < ApplicationController
-  before_action :set_feature, only: [:create_comment, :show]
+  before_action :set_feature, only: [:show]
 
   # GET /api/features
   def index
@@ -35,17 +35,6 @@ class Api::FeaturesController < ApplicationController
     }
     render json: feature_data, status: :ok
   end
-
-  # POST /api/features/:id/comments
-  def create_comment
-    comment = @feature.comments.build(comment_params)
-    if comment.save
-      render json: comment, status: :created
-    else
-      render json: comment.errors, status: :unprocessable_entity
-    end
-  end
-  
 
   private 
 
